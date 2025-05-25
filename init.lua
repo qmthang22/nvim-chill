@@ -49,5 +49,5 @@ require("lazy").setup({
 require("core.autocmd")
 require("core.keymaps")
 require("core.options")
-
+vim.opt.wrap = false
 Yuki.format.setup()

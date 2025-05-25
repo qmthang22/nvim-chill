@@ -145,8 +145,14 @@ if vim.fn.executable("lazygit") == 1 then
 end
 -- stylua: ignore end
 
--- Terminal Mappings
-map("<c-/>", function()
+-- -- Terminal Mappings
+-- map("<c-/>", function()
+--   Snacks.terminal(nil, { cwd = Snacks.git.get_root() })
+-- end, "Terminal (Root Dir)")
+-- map("<C-/>", "<cmd>close<cr>", "Hide Terminal", { mode = "t" })
+
+map("<leader>t", function()
   Snacks.terminal(nil, { cwd = Snacks.git.get_root() })
 end, "Terminal (Root Dir)")
-map("<C-/>", "<cmd>close<cr>", "Hide Terminal", { mode = "t" })
+
+map("<leader>t", "<cmd>close<cr>", "Hide Terminal", { mode = "t" })
