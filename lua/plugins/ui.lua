@@ -1,14 +1,45 @@
 return {
+  -- {
+  --   "tiesen243/vercel.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("vercel").setup({ theme = "dark", transparent = true })
+  --     vim.cmd.colorscheme("vercel")
+  --   end,
+  -- },
+  --
   {
-    "tiesen243/vercel.nvim",
-    lazy = false,
-    priority = 1000,
+    "folke/tokyonight.nvim",
+    name = "tokyonight",
+    priority = 999,
     config = function()
-      require("vercel").setup({ theme = "dark", transparent = true })
-      vim.cmd.colorscheme("vercel")
+      local themes = {
+        "solarized-osaka", -- mac định
+        "catppuccin",
+        "tokyonight-night",
+        "kanagawa",
+        "rose-pine",
+      }
+
+      local current_theme_index = 1
+      vim.cmd.colorscheme(themes[current_theme_index])
+
+      vim.keymap.set("n", "<leader>nt", function()
+        current_theme_index = current_theme_index + 1
+        if current_theme_index > #themes then
+          current_theme_index = 1
+        end
+        local theme = themes[current_theme_index]
+        vim.cmd.colorscheme(theme)
+        print("Change nvim theme to: " .. theme)
+      end, { noremap = true, silent = true })
     end,
   },
-
+  { "catppuccin/nvim", name = "catppuccin", priority = 800 },
+  { "rebelot/kanagawa.nvim", name = "kanagawa", priority = 900 },
+  { "rose-pine/neovim", name = "rose-pine", priority = 1000 },
+  { "craftzdog/solarized-osaka.nvim", name = "solarized-osaka", priority = 1001 },
   {
     "akinsho/bufferline.nvim",
     enabled = false,
