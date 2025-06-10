@@ -1,21 +1,18 @@
 return {
-  -- {
-  --   "tiesen243/vercel.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     require("vercel").setup({ theme = "dark", transparent = true })
-  --     vim.cmd.colorscheme("vercel")
-  --   end,
-  -- },
-  --
+  {
+    "tiesen243/vercel.nvim",
+    lazy = false,
+    priority = 1001, -- Đặt ưu tiên cao hơn để load trước nếu cần
+  },
+
   {
     "folke/tokyonight.nvim",
     name = "tokyonight",
-    priority = 999,
+    priority = 1000,
     config = function()
       local themes = {
-        "solarized-osaka", -- mac định
+        "vercel", -- gộp theme đầu tiên vào đây
+        "solarized-osaka",
         "catppuccin",
         "tokyonight-night",
         "kanagawa",
@@ -23,23 +20,34 @@ return {
       }
 
       local current_theme_index = 1
-      vim.cmd.colorscheme(themes[current_theme_index])
+
+      -- Nếu theme là "vercel", thì cần gọi setup riêng của nó
+      local function load_theme(index)
+        local theme = themes[index]
+        if theme == "vercel" then
+          require("vercel").setup({ theme = "dark", transparent = true })
+        end
+        vim.cmd.colorscheme(theme)
+        print("Change nvim theme to: " .. theme)
+      end
+
+      load_theme(current_theme_index)
 
       vim.keymap.set("n", "<leader>nt", function()
         current_theme_index = current_theme_index + 1
         if current_theme_index > #themes then
           current_theme_index = 1
         end
-        local theme = themes[current_theme_index]
-        vim.cmd.colorscheme(theme)
-        print("Change nvim theme to: " .. theme)
+        load_theme(current_theme_index)
       end, { noremap = true, silent = true })
     end,
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 800 },
+
+  { "catppuccin/nvim", name = "catppuccin", priority = 900 },
   { "rebelot/kanagawa.nvim", name = "kanagawa", priority = 900 },
-  { "rose-pine/neovim", name = "rose-pine", priority = 1000 },
-  { "craftzdog/solarized-osaka.nvim", name = "solarized-osaka", priority = 1001 },
+  { "rose-pine/neovim", name = "rose-pine", priority = 900 },
+  { "craftzdog/solarized-osaka.nvim", name = "solarized-osaka", priority = 900 },
+
   {
     "akinsho/bufferline.nvim",
     enabled = false,
